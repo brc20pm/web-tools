@@ -1,0 +1,135 @@
+{
+	"pages": [{
+		"path": "pages/assets/assets",
+		"style": {
+			"navigationBarTitleText": "",
+			"enablePullDownRefresh": false
+		}
+
+	}, {
+		"path": "pages/explorer/explorer",
+		"style": {
+			"navigationBarTitleText": "",
+			"enablePullDownRefresh": false
+		}
+
+	}, {
+		"path": "pages/pager/pager",
+		"style": {
+			"navigationBarTitleText": "",
+			"enablePullDownRefresh": false
+		}
+
+	}, {
+		"path": "pages/assets/tokenIds/tokenIds",
+		"style": {
+			"enablePullDownRefresh": false
+		}
+
+	}, {
+		"path": "pages/explorer/transaction/transaction",
+		"style": {
+			"navigationBarTitleText": "",
+			"enablePullDownRefresh": false
+		}
+
+	}, {
+		"path": "pages/assets/token-details/token-details",
+		"style": {
+			"navigationBarTitleText": "",
+			"enablePullDownRefresh": false
+		}
+
+	}, {
+		"path": "pages/assets/tokenIds/details/details",
+		"style": {
+			"navigationBarTitleText": "",
+			"enablePullDownRefresh": false
+		}
+
+	}, {
+		"path": "pages/assets/token-details/transfer/transfer",
+		"style": {
+			"navigationBarTitleText": "",
+			"enablePullDownRefresh": false
+		}
+
+	}, {
+		"path": "pages/assets/tokenIds/transfer/transfer",
+		"style": {
+			"navigationBarTitleText": "",
+			"enablePullDownRefresh": false
+		}
+
+	}, {
+		"path": "pages/bridge/bridge",
+		"style": {
+			"navigationBarTitleText": "",
+			"enablePullDownRefresh": false
+		}
+
+	}, {
+		"path": "pages/airdrop/airdrop",
+		"style": {
+			"navigationBarTitleText": "",
+			"enablePullDownRefresh": false
+		}
+
+	}, {
+		"path": "pages/launchpad/launchpad",
+		"style": {
+			"navigationBarTitleText": "",
+			"enablePullDownRefresh": false
+		}
+
+	}    ,{
+            "path" : "pages/explorer/transaction/logs/logs",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+    ],
+	"globalStyle": {
+		// "backgroundColorTop": "#FFFFFF", // iOS APP真机bounce回弹区域默认灰色,建议统一重置为白色
+		"navigationStyle": "custom",
+		"navigationBarTextStyle": "black"
+	},
+	"tabBar": {
+		"height": "70px",
+		"borderStyle": "#000000",
+		"backgroundColor": "#000000",
+		"fontSize": "28rpx",
+		"iconWidth": "28px",
+		"color": "#8a8a8a",
+		"selectedColor": "#FFF",
+		"list": [{
+				"text": "Assets",
+				"pagePath": "pages/assets/assets",
+				"iconPath": "static/1.png",
+				"selectedIconPath": "static/11.png"
+			},
+			{
+				"text": "AirDrop",
+				"pagePath": "pages/airdrop/airdrop",
+				"iconPath": "static/5.png",
+				"selectedIconPath": "static/55.png"
+			},
+			{
+				"text": "Explorer",
+				"pagePath": "pages/explorer/explorer",
+				"iconPath": "static/2.png",
+				"selectedIconPath": "static/22.png"
+			},
+			{
+				"text": "Pager",
+				"pagePath": "pages/pager/pager",
+				"iconPath": "static/3.png",
+				"selectedIconPath": "static/33.png"
+			}
+		]
+	},
+	"uniIdRouter": {}
+}
