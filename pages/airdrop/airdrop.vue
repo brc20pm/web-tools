@@ -71,7 +71,7 @@ A-100、B-400、C-500、D-1000
 
 MaxSupply: 400000000
 
-The inviter's balance must be greater than or equal to 1000 Bits`,
+The inviter's balance must be greater than or equal to 1000 ords`,
 				value: 'This is an experimental B20 token issued based on the BitScpt protocol. Everyone can freely mint, and it also has an invitation reward mechanism of up to 3 levels.',
 
 				owner: '',
