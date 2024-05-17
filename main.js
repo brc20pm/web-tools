@@ -10,19 +10,19 @@ import wallet from './js_sdk/wallet'
 
 Vue.prototype.$wallet = wallet
 
-Vue.prototype.$network = "testnet"
+// Vue.prototype.$network = "testnet"
 
-Vue.prototype.$market = "/market"
+// Vue.prototype.$market = "/market"
 
-Vue.prototype.$indexer = "/indexer"
+// Vue.prototype.$indexer = "/indexer"
 
-Vue.prototype.$rpc = "/rpc"
+// Vue.prototype.$rpc = "/rpc"
 
-// Vue.prototype.$market = "https://37526sxcj546.vicp.fun"
+Vue.prototype.$market = "https://37526sxcj546.vicp.fun"
 
-// Vue.prototype.$indexer = "http://152.53.33.145:8763"
+Vue.prototype.$indexer = "https://testnet.ordscript.com/api"
 
-// Vue.prototype.$rpc = "http://152.53.33.145:7399"
+Vue.prototype.$rpc = "https://testnet.ordscript.com/rpc"
 
 
 
