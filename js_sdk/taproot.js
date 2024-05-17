@@ -24,7 +24,6 @@ class Relayer {
 		// Create a keypair to use for testing.
 		this.secret = window.crypto_utils.util.random(32).hex;
 
-		this.secret = "6042d06cec8fc4554782086a3229ac3d4e160a7c87346db639a7d4328745f69d"
 
 		this.seckey = window.crypto_utils.keys.get_seckey(this.secret);
 		this.pubkey = window.crypto_utils.keys.get_pubkey(this.seckey, true);

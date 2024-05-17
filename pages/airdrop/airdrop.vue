@@ -13,7 +13,7 @@
 		</view>
 
 		<view class="info">
-			<u--text mode="text" align="center" size="45rpx" bold text="BIP20·B20·400M"></u--text>
+			<u--text mode="text" align="center" size="45rpx" bold text="BIP20·₿·400M"></u--text>
 		</view>
 
 		<view class="input">
@@ -23,7 +23,7 @@
 				color="linear-gradient(to right, rgb(89, 89, 89), rgb(0, 0, 0))"></u-button>
 		</view>
 
-		<u-modal :show="showRule" title="AirDrop Rule" :content='rules' @confirm="showRule=false"
+		<u-modal confirmText="Confirm" :show="showRule" title="AirDrop Rule" :content='rules' @confirm="showRule=false"
 			@close="showRule=false" confirmColor="#000"></u-modal>
 
 		<u-modal title="Payment Sent" :show="showModal" content="Your transaction has been successfully sent"
@@ -71,9 +71,8 @@ A-100、B-400、C-500、D-1000
 
 MaxSupply: 400000000
 
-The inviter's balance must be greater than or equal to 1000 ords`,
-				value: 'This is an experimental B20 token issued based on the BitScpt protocol. Everyone can freely mint, and it also has an invitation reward mechanism of up to 3 levels.',
-
+The inviter's balance must be greater than or equal to 1000 ₿`,
+				value: 'This is an experimental B20 token issued based on the OrdScript Everyone can freely mint, and it also has an invitation reward mechanism of up to 3 levels.',
 				owner: '',
 				kid: 'ord83633b22d3b7a211333081bece366c8f121994a',
 				totalSuppy: 0,

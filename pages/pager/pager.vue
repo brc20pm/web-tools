@@ -38,7 +38,7 @@
 					<u-icon slot="right" style="padding-left: 5px;" name="arrow-right"></u-icon>
 				</u-form-item>
 
-				<u-picker :show="showMethod" :columns="methods" keyName="name" title="Please select method"
+				<u-picker  confirmText="confirm" cancelText="cancel" :show="showMethod" :columns="methods" keyName="name" title="Please select method"
 					@confirm="methodSelect" @close="showMethod = false" @cancel="showMethod = false"></u-picker>
 
 				<u-form-item label="Params" labelWidth="auto" borderBottom @click="params.length==0?'':InputParams()">
@@ -58,7 +58,7 @@
 					<u-icon slot="right" style="padding-left: 5px;" name="arrow-right"></u-icon>
 				</u-form-item>
 
-				<u-picker :show="showFee" :columns="fees" keyName="name" title="Please select speed"
+				<u-picker confirmText="confirm" cancelText="cancel" :show="showFee" :columns="fees" keyName="name" title="Please select speed"
 					@confirm="feeSelect" @close="showFee = false" @cancel="showFee = false"></u-picker>
 
 			</u--form>
@@ -76,11 +76,11 @@
 			<view class="params-mode">
 				<view class="btn">
 					<u--text class="left" @click="popupClose" color="#909193" align="left" size="15px"
-						text="取消"></u--text>
+						text="cancel"></u--text>
 					<u--text class="center" color="#303133" align="center" size="15px"
 						text="Enter parameters"></u--text>
 					<u--text class="right" @click="confirmParams" color="#3c9cff" align="right" size="15px"
-						text="确认"></u--text>
+						text="confirm"></u--text>
 				</view>
 				<u--form labelPosition="left" :mode="pForm" ref="pForm">
 					<u-form-item style="line-height: 50rpx;" :label="param" labelWidth="auto" borderBottom
@@ -184,12 +184,12 @@
 		methods: {
 			default () {
 				this.script = {
-					kid: "bit75e42a564251d459e085e9b2a9e6f8177c5fd76",
-					script: "class Contract{_name;init(){}setName(name){this._name=name}$getName(){return this._name}}",
-					abi: "[{\"params\":[\"name\"],\"name\":\"setName\"},{\"name\":\"$getName\",\"params\":[]}]",
-					creator: "tb1p0yfutsrnm4hfs4yvfqr2x7l906ttnksnw2df5n3q25n8e5kngecq8u4du0",
-					create_hash: "a498cc8c51c508827411ba5b0aefae86e6a9bd3ae8b63da8f2d606eaf74f6496",
-					create_time: 1713751070
+					kid: "ord83633b22d3b7a211333081bece366c8f121994a",
+					script: `class Contract extends B20{_inviters;_creator;_maxTotal;_lastHash;init(){this._allowances=new Map,this._balances=new Map,this._inviters=new Map,this._name=\"BIP20\",this._symbol=\"₿\",this._maxTotal=SafeMath.val(4e8),this._creator=\"tb1pg5rkxtyrc7ctlg5yza5ddcchrxrpzx7zjuz3w85hn48w9zr6naaq7g9z80\",this._totalSupply=SafeMath.val(2e3),this._balances.setBucket(this._creator,2e3),this.event({name:\"Transfer\",from:\"Satoshi\",to:this._creator,amount:this._totalSupply})}mint(inviter){require(this._lastHash!=this.txHash,\"mint is locked\"),this._lastHash=this.txHash;var t,a=this._balances.getBucket(inviter),a=(require(SafeMath.gte(a,1e3),\"invalid inviter address\"),SafeMath.add(this._totalSupply,2e3)),a=(require(SafeMath.lte(a,this._maxTotal),\"maximum totalSupply: 40000000\"),this._msgSender());return this._inviters.set(a,inviter),this._mint(a,1e3),inviter!=this._creator?(a=this._inviters.get(inviter),t=this._inviters.get(a),this._mint(inviter,500),t?(this._mint(a,400),this._mint(t,100)):this._mint(a,500)):this._mint(inviter,1e3),!0}burn(amount){return this._burn(this._msgSender(),amount),!0}_mint(owner,amount){this._totalSupply=SafeMath.add(this._totalSupply,amount);var t=this._balances.getBucket(owner);this._balances.setBucket(owner,SafeMath.add(t,amount)),this.event({name:\"Transfer\",from:\"Satoshi\",to:owner,amount:amount})}_burn(owner,amount){var t=this._balances.getBucket(owner);require(SafeMath.gte(t,amount),\"B20: burn amount exceeds balance\"),this._totalSupply=SafeMath.sub(this._totalSupply,amount),this._balances.setBucket(owner,SafeMath.sub(t,amount)),this.event({name:\"Transfer\",from:owner,to:\"Satoshi\",amount:amount})}batchTransfer(toArray){return require(Array.isArray(toArray),\"param is not an array type\"),require(toArray.length<=100,\"maximum batch transfer is 100\"),forAny((_,item)=>{this.transfer(item.to,item.amount)},toArray),!0}}`,
+					abi: "[{\"name\":\"mint\",\"params\":[\"inviter\"]},{\"name\":\"burn\",\"params\":[\"amount\"]},{\"name\":\"batchTransfer\",\"params\":[\"toArray\"]},{\"name\":\"$name\",\"params\":[]},{\"params\":[],\"name\":\"$symbol\"},{\"name\":\"$totalSupply\",\"params\":[]},{\"name\":\"$balanceOf\",\"params\":[\"account\"]},{\"name\":\"approve\",\"params\":[\"sender\",\"amount\"]},{\"name\":\"increaseAllowance\",\"params\":[\"spender\",\"addedValue\"]},{\"name\":\"decreaseAllowance\",\"params\":[\"spender\",\"subtractedValue\"]},{\"name\":\"$allowance\",\"params\":[\"owner\",\"sender\"]},{\"name\":\"transfer\",\"params\":[\"recipient\",\"amount\"]},{\"params\":[\"sender\",\"recipient\",\"amount\"],\"name\":\"transferFrom\"}]",
+					creator: "tb1pfthhc50aqyqywq0pnh0xts6gkpwyg3nhnsuu062qqhgkdg2schqqa3fekr",
+					create_hash: "c9bd8da158870aa6c27d755909b99d5edb2e45877e33ab062ca4b245423f20c6",
+					create_time: 1715771586
 				}
 				this.model = {
 					method: '',
@@ -226,6 +226,9 @@
 				}
 			},
 			call(inc) {
+				uni.showLoading({
+					mask:true
+				})
 				uni.request({
 					url: this.$rpc,
 					method: "POST",
@@ -243,6 +246,9 @@
 							icon: 'none',
 							title: err.errMsg
 						})
+					},
+					complete:()=>{
+						uni.hideLoading()
 					}
 				})
 			},
@@ -416,7 +422,8 @@
 		display: flex;
 		flex-direction: column;
 		background-color: #FFF;
-
+		padding-bottom: 70px;
+		
 		.search {
 			width: 95%;
 			margin: 0 auto;

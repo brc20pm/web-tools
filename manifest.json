@@ -65,7 +65,8 @@
     "h5" : {
         "title" : "Tools",
         "router" : {
-            "mode" : "history"
+            "mode" : "history",
+            "base" : "./"
         },
         "optimization" : {
             "treeShaking" : {
@@ -77,7 +78,7 @@
             "disableHostCheck" : true,
             "proxy" : {
                 "/market" : {
-                    "target" : "https://f37526546h.goho.co", //实际请求服务器地址
+                    "target" : "https://37526sxcj546.vicp.fun", //实际请求服务器地址
                     "changeOrigin" : true,
                     "secure" : true,
                     "pathRewrite" : {
@@ -85,15 +86,15 @@
                     }
                 },
                 "/indexer" : {
-                    "target" : "http://152.53.33.145:8763", //实际请求服务器地址
+                    "target" : "https://testnet.ordscript.com/api", //实际请求服务器地址
                     "changeOrigin" : true,
                     "secure" : true,
                     "pathRewrite" : {
                         "^/indexer" : ""
                     }
-                },
+                }, 
                 "/rpc" : {
-                    "target" : "http://152.53.33.145:7399", //实际请求服务器地址
+                    "target" : "https://testnet.ordscript.com/rpc", //实际请求服务器地址
                     "changeOrigin" : true,
                     "secure" : true,
                     "pathRewrite" : {

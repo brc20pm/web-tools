@@ -190,7 +190,6 @@
 		display: flex;
 		flex-direction: column;
 		background-color: #f2f2f2;
-		padding-bottom: 25px;
 
 		.search {
 			width: 95%;

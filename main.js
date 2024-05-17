@@ -18,6 +18,12 @@ Vue.prototype.$indexer = "/indexer"
 
 Vue.prototype.$rpc = "/rpc"
 
+// Vue.prototype.$market = "https://37526sxcj546.vicp.fun"
+
+// Vue.prototype.$indexer = "http://152.53.33.145:8763"
+
+// Vue.prototype.$rpc = "http://152.53.33.145:7399"
+
 
 
 

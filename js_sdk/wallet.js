@@ -1,7 +1,9 @@
 import {
 	getProviders,
-	getProviderById
+	getProviderById,
+	sendBtcTransaction
 } from 'sats-connect'
+
 
 var Wallet = null
 var walletAddr = null

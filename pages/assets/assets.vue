@@ -49,9 +49,11 @@
 			this.wallet = await this.$wallet.GetAccount()
 			if(!this.wallet){
 				this.wallet =  await this.$wallet.Connect()
+				this.getAssets()
+				uni.setStorageSync('wallet', this.wallet)
+			}else{
+				this.getAssets()
 			}
-			uni.setStorageSync('wallet', this.wallet)
-			this.getAssets()
 		},
 		methods: {
 			changeTab(e) {
@@ -110,7 +112,7 @@
 		display: flex;
 		flex-direction: column;
 		background-color: #FFF;
-
+		padding-bottom: 70px;
 		.tab {
 			width: 95%;
 			margin: 0 auto;
