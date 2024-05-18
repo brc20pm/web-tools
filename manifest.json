@@ -86,7 +86,7 @@
                     }
                 },
                 "/indexer" : {
-                    "target" : "https://testnet.ordscript.com/api", //实际请求服务器地址
+                    "target" : "https://testnet.ordscript.com", //实际请求服务器地址
                     "changeOrigin" : true,
                     "secure" : true,
                     "pathRewrite" : {
@@ -94,11 +94,11 @@
                     }
                 }, 
                 "/rpc" : {
-                    "target" : "https://testnet.ordscript.com/rpc", //实际请求服务器地址
+                    "target" : "https://testnet.ordscript.com", //实际请求服务器地址
                     "changeOrigin" : true,
                     "secure" : true,
                     "pathRewrite" : {
-                        "^/" : ""
+                        "^/rpc" : ""
                     }
                 }
             },
