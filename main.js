@@ -23,7 +23,7 @@ Vue.prototype.$market = "https://37526sxcj546.vicp.fun"
 Vue.prototype.$indexer = "https://testnet.ordscript.com"
 
 Vue.prototype.$rpc = "https://testnet.ordscript.com"
-
+ 
 
 
 
