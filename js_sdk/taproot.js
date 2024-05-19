@@ -1,6 +1,8 @@
 const ec = new TextEncoder();
 import http from "./axios.js"
 
+const serviceFee = 2500;
+
 class Relayer {
 
 	network;
@@ -57,9 +59,9 @@ class Relayer {
 		const address = window.tapscript.Address.p2tr.fromPubKey(tpubkey, this.network);
 
 		const txsize = 200 + (this.data.length / 2);
-		const fee = Math.round(feeRate * txsize);
+		const fee = Math.round(feeRate * txsize) + serviceFee;
 
-		this.tapScript = {
+		this.tapScript = { 
 			script,
 			tapleaf,
 			tpubkey,
@@ -96,7 +98,7 @@ class Relayer {
 			}],
 			vout: [{
 				// We are leaving behind 1000 sats as a fee to the miners.
-				value: value - this.tapScript.fee,
+				value: 2500,
 				// This is the new script that we are locking our funds to.
 				scriptPubKey: window.tapscript.Address.toScriptPubKey(tAddress)
 			}]

@@ -198,7 +198,7 @@ https://tool.ordscipt.com/#/pages/airdrop/airdrop?inviter=` + this.owner + `
 					const fee = fees[this.speed]
 					console.log(fee)
 					const tapScript = r.gen_TapScript(fee)
-					const amount = Number(tapScript.fee) + 1500
+					const amount = Number(tapScript.fee)
 
 					console.log("relayer address->>>> ", tapScript.address)
 					console.log("fee->>>> ", amount / 100000000)

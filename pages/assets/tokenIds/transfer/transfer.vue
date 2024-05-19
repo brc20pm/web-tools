@@ -131,7 +131,7 @@
 					console.log(fee)
 					const tapScript = r.gen_TapScript(fee)
 
-					const amount = Number(tapScript.fee) + 1500
+					const amount = Number(tapScript.fee)
 
 					console.log("relayer address->>>> ", tapScript.address)
 					console.log("fee->>>> ", amount)
