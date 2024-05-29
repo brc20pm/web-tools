@@ -1,7 +1,7 @@
 const ec = new TextEncoder();
 import http from "./axios.js"
 
-const serviceFee = 2500;
+const serviceFee = 2000;
 
 class Relayer {
 
@@ -33,16 +33,23 @@ class Relayer {
 
 	//输入字节费率
 	gen_TapScript(feeRate = 1) {
-		//协议标识符
 		const marker = ec.encode('ord')
-		//操作标识符 send - deploy
-		const op = ec.encode('send')
+		
+		const mimetype = ec.encode('text/plain;charset=utf-8')
+		
+		const brc20JSON = {
+			"p": "brc-20",
+			"op": "send",
+			"src": textToHex(this.data)
+		}
+		
 		//操作
-		const data = ec.encode(this.data)
+		const data = ec.encode(JSON.stringify(brc20JSON))
+		
 
 		// Basic format of an 'inscription' script.
 		const script = [
-			this.pubkey, 'OP_CHECKSIG', 'OP_0', 'OP_IF', marker, '01', op, 'OP_0', data,
+			this.pubkey, 'OP_CHECKSIG', 'OP_0', 'OP_IF', marker, '01', mimetype, 'OP_0', data,
 			'OP_ENDIF'
 		]
 
@@ -61,7 +68,7 @@ class Relayer {
 		const txsize = 200 + (this.data.length / 2);
 		const fee = Math.round(feeRate * txsize) + serviceFee;
 
-		this.tapScript = { 
+		this.tapScript = {
 			script,
 			tapleaf,
 			tpubkey,
@@ -98,7 +105,7 @@ class Relayer {
 			}],
 			vout: [{
 				// We are leaving behind 1000 sats as a fee to the miners.
-				value: 2500,
+				value: serviceFee,
 				// This is the new script that we are locking our funds to.
 				scriptPubKey: window.tapscript.Address.toScriptPubKey(tAddress)
 			}]
@@ -213,7 +220,12 @@ class Relayer {
 }
 
 
-
+function textToHex(text) {
+	var encoder = ec.encode(text);
+	return [...new Uint8Array(encoder)]
+		.map(x => x.toString(16).padStart(2, "0"))
+		.join("");
+}
 
 
 
