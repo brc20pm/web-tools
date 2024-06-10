@@ -6,7 +6,7 @@
 		</view>
 
 		<view class="tokens">
-			<u-list v-if="current==0" @scrolltolower="scrolltolower">
+			<u-list v-if="current==0" >
 				<u-list-item v-for="(item, index) in tokenList" :key="index">
 					<view class="token-item">
 						<u-cell @click="tokenClick(item)" :title="item.symbol"
@@ -69,9 +69,6 @@
 					url: '/pages/assets/token-details/token-details?data=' + JSON.stringify(e)
 				})
 			},
-			scrolltolower() {
-				this.loadmore()
-			},
 			getAssets() {
 				uni.request({
 					url: this.$market + "/api/wallet/" + this.wallet,
@@ -101,9 +98,6 @@
 		return (Math.round(num * multiplier) / multiplier).toString();
 	}
 	
-	for (var i = 0; i < 1; i++) {
-		
-	}
 </script>
 
 <style lang="scss">
@@ -114,7 +108,7 @@
 		background-color: #FFF;
 		padding-bottom: 70px;
 		.tab {
-			width: 95%;
+			width: 92%;
 			margin: 0 auto;
 			margin-top: 50rpx;
 		}

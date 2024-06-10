@@ -2,7 +2,7 @@
 	<view class="pager">
 		<view class="search">
 			<u-search placeholder="At Script Address" height="88rpx" search-icon-size="28" :showAction="false"
-				:clearabled="false" @search="search"></u-search>
+				:clearabled="false" @search="search" bgColor="#f3f3f7"></u-search>
 		</view>
 
 		<view class="brief">
@@ -425,14 +425,14 @@
 		padding-bottom: 70px;
 		
 		.search {
-			width: 95%;
+			width: 92%;
 			margin: 0 auto;
 			margin-top: 50rpx;
 		}
 
 		.brief {
 			flex: 1;
-			width: 93vw;
+			width: 91vw;
 			margin: 0 auto;
 			margin-top: 50rpx;
 			display: flex;
@@ -450,14 +450,14 @@
 
 		.script {
 			flex: 1;
-			width: 93vw;
+			width: 91vw;
 			margin: 0 auto;
 			margin-top: 15px;
 		}
 
 		.report {
 			flex: 2;
-			width: 93vw;
+			width: 91vw;
 			margin: 0 auto;
 			margin-top: 15px;
 		}

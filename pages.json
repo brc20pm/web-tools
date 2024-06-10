@@ -1,97 +1,81 @@
 {
 	"pages": [{
-		"path": "pages/assets/assets",
-		"style": {
-			"navigationBarTitleText": "",
-			"enablePullDownRefresh": false
-		}
+			"path": "pages/assets/assets",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
 
-	}, {
-		"path": "pages/explorer/explorer",
-		"style": {
-			"navigationBarTitleText": "",
-			"enablePullDownRefresh": false
-		}
+		}, {
+			"path": "pages/explorer/explorer",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
 
-	}, {
-		"path": "pages/pager/pager",
-		"style": {
-			"navigationBarTitleText": "",
-			"enablePullDownRefresh": false
-		}
+		}, {
+			"path": "pages/pager/pager",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
 
-	}, {
-		"path": "pages/assets/tokenIds/tokenIds",
-		"style": {
-			"enablePullDownRefresh": false
-		}
+		}, {
+			"path": "pages/assets/tokenIds/tokenIds",
+			"style": {
+				"enablePullDownRefresh": false
+			}
 
-	}, {
-		"path": "pages/explorer/transaction/transaction",
-		"style": {
-			"navigationBarTitleText": "",
-			"enablePullDownRefresh": false
-		}
+		}, {
+			"path": "pages/explorer/transaction/transaction",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
 
-	}, {
-		"path": "pages/assets/token-details/token-details",
-		"style": {
-			"navigationBarTitleText": "",
-			"enablePullDownRefresh": false
-		}
+		}, {
+			"path": "pages/assets/token-details/token-details",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
 
-	}, {
-		"path": "pages/assets/tokenIds/details/details",
-		"style": {
-			"navigationBarTitleText": "",
-			"enablePullDownRefresh": false
-		}
+		}, {
+			"path": "pages/assets/tokenIds/details/details",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
 
-	}, {
-		"path": "pages/assets/token-details/transfer/transfer",
-		"style": {
-			"navigationBarTitleText": "",
-			"enablePullDownRefresh": false
-		}
+		}, {
+			"path": "pages/assets/token-details/transfer/transfer",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
 
-	}, {
-		"path": "pages/assets/tokenIds/transfer/transfer",
-		"style": {
-			"navigationBarTitleText": "",
-			"enablePullDownRefresh": false
-		}
+		}, {
+			"path": "pages/assets/tokenIds/transfer/transfer",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
 
-	}, {
-		"path": "pages/bridge/bridge",
-		"style": {
-			"navigationBarTitleText": "",
-			"enablePullDownRefresh": false
-		}
+		}, {
+			"path": "pages/explorer/transaction/logs/logs",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
 
-	}, {
-		"path": "pages/airdrop/airdrop",
-		"style": {
-			"navigationBarTitleText": "",
-			"enablePullDownRefresh": false
+		},
+		{
+			"path": "pages/market/market",
+			"style": {
+				"navigationBarTitleText": ""
+			}
 		}
-
-	}, {
-		"path": "pages/launchpad/launchpad",
-		"style": {
-			"navigationBarTitleText": "",
-			"enablePullDownRefresh": false
-		}
-
-	}    ,{
-            "path" : "pages/explorer/transaction/logs/logs",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-    ],
+	],
 	"globalStyle": {
 		// "backgroundColorTop": "#FFFFFF", // iOS APP真机bounce回弹区域默认灰色,建议统一重置为白色
 		"navigationStyle": "custom",
@@ -112,10 +96,10 @@
 				"selectedIconPath": "static/11.png"
 			},
 			{
-				"text": "AirDrop",
-				"pagePath": "pages/airdrop/airdrop",
-				"iconPath": "static/5.png",
-				"selectedIconPath": "static/55.png"
+				"text": "Market",
+				"pagePath": "pages/market/market",
+				"iconPath": "static/7.png",
+				"selectedIconPath": "static/77.png"
 			},
 			{
 				"text": "Explorer",

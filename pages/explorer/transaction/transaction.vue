@@ -37,7 +37,7 @@
 		</view>
 		<view class="report">
 			<u--text align="left" size="33rpx" bold text="Out"></u--text>
-			<u--textarea autoHeight :value="tx.op=='deploy'?tx.kid:tx.out+''" placeholder="Out content"
+			<u--textarea autoHeight :value="tx.op=='deploy'?tx.kid:tx.out?tx.out:'No output'+''" placeholder="Out content"
 				disabled></u--textarea>
 		</view>
 	</view>

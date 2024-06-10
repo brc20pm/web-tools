@@ -189,16 +189,16 @@
 		height: 100vh;
 		display: flex;
 		flex-direction: column;
-		background-color: #f2f2f2;
+		background-color: #f3f3f7;
 
 		.search {
-			width: 95%;
+			width: 92%;
 			margin: 0 auto;
 			margin-top: 50rpx;
 		}
 
 		.online-txs {
-			width: 87%;
+			width: 85%;
 			margin: 0 auto;
 			margin-top: 45rpx;
 			display: flex;
@@ -241,7 +241,7 @@
 		}
 
 		.local-txs {
-			width: 87%;
+			width: 85%;
 			margin: 0 auto;
 			margin-top: 15px;
 			display: flex;
