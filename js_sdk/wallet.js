@@ -21,7 +21,6 @@ export default {
 				purposes: ['payment'],
 				message: 'Address for receiving payments'
 			});
-
 			if (result.result) {
 				if (result.result.length > 0) {
 					walletAddr = result.result[0].address

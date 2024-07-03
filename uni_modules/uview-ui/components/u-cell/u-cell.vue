@@ -1,6 +1,6 @@
 <template>
 	<view class="u-cell" :class="[customClass]" :style="[$u.addStyle(customStyle)]"
-		:hover-class="(!disabled && (clickable || isLink)) ? 'u-cell--clickable' : ''" :hover-stay-time="250"
+		:hover-class="(!disabled && (clickable)) ? 'u-cell--clickable' : ''" :hover-stay-time="250"
 		@tap="clickHandler">
 		<view class="u-cell__body" :class="[ center && 'u-cell--center', size === 'large' && 'u-cell__body--large']">
 			<view class="u-cell__body__content">
@@ -121,8 +121,8 @@
 	$u-cell-title-font-size-large: 16px !default;
 	$u-cell-left-icon-wrap-margin-right: 4px !default;
 	$u-cell-right-icon-wrap-margin-left: 4px !default;
-	$u-cell-title-flex:1 !default;
-	$u-cell-label-margin-top:5px !default;
+	$u-cell-title-flex: 1 !default;
+	$u-cell-label-margin-top: 5px !default;
 
 
 	.u-cell {

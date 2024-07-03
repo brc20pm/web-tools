@@ -122,7 +122,7 @@
 			</view>
 		</u-popup>
 
-		<u-modal title="Payment Sent" :show="showModal" content="Your transaction has been successfully sent"
+		<u-modal title="Payment Sent" :show="showModal" content="Your    transaction    broadcasted"
 			:closeOnClickOverlay="true" showCancelButton @close="showModal = false">
 			<u-button slot="confirmButton" text="View Block Explorer" type="success" shape="circle" @click="mempool"
 				color="linear-gradient(to right, rgb(89, 89, 89), rgb(0, 0, 0))"></u-button>
@@ -230,7 +230,7 @@
 					mask:true
 				})
 				uni.request({
-					url: this.$rpc,
+					url: this.$Node,
 					method: "POST",
 					data: {
 						jsonrpc: "2.0",
@@ -308,7 +308,7 @@
 				this.default()
 				if (value) {
 					uni.request({
-						url: this.$indexer + "/api/script/" + value,
+						url: this.$Node + "/api/script/" + value,
 						success: (res) => {
 							if (res.data.data) {
 								this.script = res.data.data

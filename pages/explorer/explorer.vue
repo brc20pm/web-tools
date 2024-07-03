@@ -1,44 +1,51 @@
 <template>
 	<view class="explorer">
-		<view class="search">
-			<u-search placeholder="Explore transactions" bgColor="#FFF" inputAlign="left" height="88rpx"
-				search-icon-size="28" :showAction="false" :clearabled="false" @search="search"></u-search>
-		</view>
-		<view class="online-txs">
-			<u-icon name="" size="28" label-size="35rpx" label="Latest Transactions"></u-icon>
-			<view v-if="latestTxs.length>0" class="txs">
-				<view class="title">
-					<u--text class="text" align="left" size="33rpx" bold text="TXID"></u--text>
-					<u--text class="text" align="center" size="33rpx" bold text="Height"></u--text>
-					<u--text class="text" align="right" size="33rpx" bold text="Status"></u--text>
+		<view v-show="!loading">
+			<view class="search">
+				<u-search placeholder="Explore transactions" bgColor="#FFF" inputAlign="left" height="88rpx"
+					search-icon-size="28" :showAction="false" :clearabled="false" @search="search"></u-search>
+			</view>
+			<view class="online-txs">
+				<u-icon name="" size="28" label-size="35rpx" label="Latest Transactions"></u-icon>
+				<view v-if="latestTxs.length>0" class="txs">
+					<view class="title">
+						<u--text class="text" align="left" size="33rpx" bold text="TXID"></u--text>
+						<u--text class="text" align="center" size="33rpx" bold text="Height"></u--text>
+						<u--text class="text" align="right" size="33rpx" bold text="Status"></u--text>
+					</view>
+					<view class="list" v-for="tx,index in latestTxs" :key="index">
+						<u--text @click="search(tx.tx_hash)" class="text" align="left" size="32rpx" :text="tx.tx_hash.substring(0, 5) + '...' + tx.tx_hash.substring(tx.tx_hash.length - 5,
+									tx.tx_hash.length)"></u--text>
+						<u--text class="text" align="center" size="32rpx" :text="tx.height"></u--text>
+						<u--text class="text" align="right" size="32rpx"
+							:text="tx.status==1?'success':'fail'"></u--text>
+					</view>
 				</view>
-				<view class="list" v-for="tx,index in latestTxs" :key="index">
-					<u--text @click="search(tx.tx_hash)" class="text" align="left" size="32rpx" :text="tx.tx_hash.substring(0, 5) + '...' + tx.tx_hash.substring(tx.tx_hash.length - 5,
-								tx.tx_hash.length)"></u--text>
-					<u--text class="text" align="center" size="32rpx" :text="tx.height"></u--text>
-					<u--text class="text" align="right" size="32rpx" :text="tx.status==1?'success':'fail'"></u--text>
+				<view v-else>
+					<u-empty mode="history" text="No transaction history" textSize="16">
+					</u-empty>
 				</view>
 			</view>
-			<u-empty v-else mode="history" text="No transaction history" textSize="16">
-			</u-empty>
-		</view>
-		<view class="local-txs">
-			<u-icon name="" size="28" label-size="35rpx" label="Local Transactions"></u-icon>
-			<view v-if="localTxs.length>0" class="txs">
-				<view class="list">
-					<u--text class="text" align="left" size="33rpx" bold text="TXID"></u--text>
-					<u--text class="text" align="right" size="33rpx" bold text="Status"></u--text>
+			<view class="local-txs">
+				<u-icon name="" size="28" label-size="35rpx" label="Local Transactions"></u-icon>
+				<view v-if="localTxs.length>0" class="txs">
+					<view class="list">
+						<u--text class="text" align="left" size="33rpx" bold text="TXID"></u--text>
+						<u--text class="text" align="right" size="33rpx" bold text="Status"></u--text>
+					</view>
+					<view class="list" v-for="tx,index in localTxs" :key="index">
+						<u--text class="text" align="left" size="32rpx" :text="tx.tx_hash.substring(0, 9) + '...' + tx.tx_hash.substring(tx.tx_hash.length - 7,
+									tx.tx_hash.length)" @click="tx.status?search(tx.tx_hash):mempool(tx.tx_hash)"></u--text>
+						<u--text class="text" align="right" size="32rpx"
+							:text="tx.status?'Confirmed':'Unconfirmed'"></u--text>
+					</view>
 				</view>
-				<view class="list" v-for="tx,index in localTxs" :key="index">
-					<u--text class="text" align="left" size="32rpx" :text="tx.tx_hash.substring(0, 9) + '...' + tx.tx_hash.substring(tx.tx_hash.length - 7,
-								tx.tx_hash.length)" @click="tx.status?search(tx.tx_hash):mempool(tx.tx_hash)"></u--text>
-					<u--text class="text" align="right" size="32rpx"
-						:text="tx.status?'Confirmed':'Unconfirmed'"></u--text>
-				</view>
+				<u-empty v-else mode="history" text="No transaction history" textSize="16">
+				</u-empty>
 			</view>
-			<u-empty v-else mode="history" text="No transaction history" textSize="16">
-			</u-empty>
+
 		</view>
+		<u-loading-page :loading="loading" :iconSize="35" loadingText="Loading..." bg-color="#fff"></u-loading-page>
 	</view>
 </template>
 
@@ -54,12 +61,18 @@
 		data() {
 			return {
 				latestTxs: [],
-				localTxs: []
+				localTxs: [],
+				loading: true,
 			};
 		},
 		onShow() {
 			this.latestBlocks()
 			this.getLocalTxids()
+
+
+			setTimeout(() => {
+				this.loading = false
+			}, 2000)
 		},
 		methods: {
 			getLocalTxids() {
@@ -102,7 +115,7 @@
 			},
 			latestBlocks() {
 				uni.request({
-					url: this.$indexer+"/api/latest/blocks",
+					url: this.$Node + "/api/latest/blocks",
 					success: (res) => {
 						if (res.data.data) {
 							let blocks = res.data.data
@@ -127,7 +140,7 @@
 			},
 			batchTx(txids) {
 				uni.request({
-					url: this.$indexer+"/api/batch/tx",
+					url: this.$Node + "/api/batch/tx",
 					method: "POST",
 					data: txids,
 					success: (res) => {
@@ -153,10 +166,10 @@
 			mempool(txid) {
 				switch (this.$network) {
 					case "mainnet":
-						window.location.href = "https://mempool.space/tx/" + txid
+						window.open("https://mempool.space/tx/" + txid)
 						break;
 					case "testnet":
-						window.location.href = "https://mempool.space/testnet/tx/" + txid
+						window.open("https://mempool.space/testnet/tx/" + txid)
 						break;
 				}
 			}
@@ -177,7 +190,7 @@
 				return txids
 			}
 			txList = txids.concat(txList.slice(txList.length - needSize, txList.length))
-		}else{
+		} else {
 			txList = txids.concat(txList);
 		}
 		return txList
@@ -186,10 +199,10 @@
 
 <style lang="scss">
 	.explorer {
-		height: 100vh;
 		display: flex;
 		flex-direction: column;
 		background-color: #f3f3f7;
+		padding-bottom: 100px;
 
 		.search {
 			width: 92%;

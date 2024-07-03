@@ -78,7 +78,7 @@
 		methods: {
 			getToken() {
 				uni.request({
-					url: this.$market+"/api/token/" + this.kid,
+					url: this.$Node+"/assets/token/" + this.kid,
 					success: (res) => {
 						if (res.data.data) {
 							this.token = res.data.data
@@ -94,7 +94,7 @@
 			},
 			getScript() {
 				uni.request({
-					url: this.$indexer+"/api/script/" + this.kid,
+					url: this.$Node+"/api/script/" + this.kid,
 					success: (res) => {
 						if (res.data.data) {
 							this.script = res.data.data
@@ -110,7 +110,7 @@
 			},
 			getTokenDist() {
 				uni.request({
-					url: this.$market+"/api/dist/721/" + this.kid,
+					url: this.$Node+"/assets/dist/721/" + this.kid,
 					success: (res) => {
 						if (res.data.data) {
 							this.holders = res.data.data

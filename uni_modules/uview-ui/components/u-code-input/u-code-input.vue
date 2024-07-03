@@ -29,7 +29,7 @@
 		</view>
 		<input
 			:disabled="disabledKeyboard"
-			type="number"
+			type="digit"
 			:focus="focus"
 			:value="inputValue"
 			:maxlength="maxlength"

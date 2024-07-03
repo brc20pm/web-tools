@@ -1,31 +1,18 @@
 <template>
 	<view class="u-avatar-group">
-		<view
-		    class="u-avatar-group__item"
-		    v-for="(item, index) in showUrl"
-		    :key="index"
-		    :style="{
+		<view class="u-avatar-group__item" v-for="(item, index) in showUrl" :key="index" :style="{
 				marginLeft: index === 0 ? 0 : $u.addUnit(-size * gap)
-			}"
-		>
-			<u-avatar
-			    :size="size"
-			    :shape="shape"
-			    :mode="mode"
-			    :src="$u.test.object(item) ? keyName && item[keyName] || item.url : item"
-			></u-avatar>
-			<view
-			    class="u-avatar-group__item__show-more"
-			    v-if="showMore && index === showUrl.length - 1 && (urls.length > maxCount || extraValue > 0)"
-				@tap="clickHandler"
-			>
-				<u--text
-				    color="#ffffff"
-				    :size="size * 0.4"
-				    :text="`+${extraValue || urls.length - showUrl.length}`"
-					align="center"
-					customStyle="justify-content: center"
-				></u--text>
+			}">
+			
+			<u-avatar v-if="textModel" :size="size" :shape="shape" :mode="mode" :text="item.keyName" random-bg-color></u-avatar>
+			<u-avatar v-else :size="size" :shape="shape" :mode="mode"
+				:src="$u.test.object(item) ? keyName && item[keyName] || item.url : item"></u-avatar>
+
+			<view class="u-avatar-group__item__show-more"
+				v-if="showMore && index === showUrl.length - 1 && (urls.length > maxCount || extraValue > 0)"
+				@tap="clickHandler">
+				<u--text color="#ffffff" :size="size * 0.4" :text="`+${extraValue || urls.length - showUrl.length}`"
+					align="center" customStyle="justify-content: center"></u--text>
 			</view>
 		</view>
 	</view>
@@ -60,6 +47,7 @@
 		},
 		computed: {
 			showUrl() {
+				console.log(this.urls)
 				return this.urls.slice(0, this.maxCount)
 			}
 		},

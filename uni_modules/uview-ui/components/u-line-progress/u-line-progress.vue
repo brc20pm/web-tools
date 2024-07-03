@@ -111,11 +111,11 @@
 		@include flex(row);
 		flex: 1;
 		overflow: hidden;
-		border-radius: 100px;
+		border-radius: 5px;
 
 		&__background {
 			background-color: #ececec;
-			border-radius: 100px;
+			border-radius: 5px;
 			flex: 1;
 		}
 
@@ -127,13 +127,13 @@
 			align-items: center;
 			@include flex(row);
 			color: #ffffff;
-			border-radius: 100px;
+			border-radius: 5px;
 			transition: width 0.5s ease;
 			justify-content: flex-end;
 		}
 
 		&__text {
-			font-size: 10px;
+			font-size: 13px;
 			align-items: center;
 			text-align: right;
 			color: #FFFFFF;

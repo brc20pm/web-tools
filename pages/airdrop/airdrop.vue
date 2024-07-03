@@ -1,295 +1,538 @@
-<template>
-	<view class="mint">
+	<template>
+		<view class="mint">
+			<!-- <u-sticky customNavHeight="0px">
+				<view class="header">
+					123
+				</view>
+			</u-sticky> -->
 
-		<u--text style="padding-top: 80rpx;" align="center" size="45rpx" bold text="Basic Info"></u--text>
-		<u-transition show mode="fade-right">
-			<u--text style="padding-top: 30rpx;" size="35rpx" bold :text="value"></u--text>
-		</u-transition>
+
+			<view class="title">
+				<text class="text-top title-top">
+					BRC20
+				</text>
+				<text class="text-bottom title-bottom">
+					Programmable Module
+				</text>
+			</view>
 
 
-		<view class="number">
-			<u-count-to :startVal="30" :endVal="totalSuppy" fontSize="33"></u-count-to>
-			<u--text align="center" size="45rpx" bold text="TotalSupply"></u--text>
+			<view class="content">
+				<view class="item">
+					<u--text align="center" color="#9d78ff" size="40rpx" :text="balance"></u--text>
+					<u--text align="center" color="#FFF" size="35rpx" text="Your Balance"></u--text>
+				</view>
+				<view class="item">
+					<view class="tags">
+						<view class="tag tag-left">
+							<text class="text-top">1000</text>
+							<text class="text-bottom">per Mint</text>
+						</view>
+						<view class="tag tag-center">
+							<text class="text-top">200,000</text>
+							<text class="text-bottom">Cap</text>
+						</view>
+						<view class="tag tag-right">
+							<text class="text-top">{{mints}}</text>
+							<text class="text-bottom">Mints</text>
+						</view>
+					</view>
+					<view class="progress">
+						<u-line-progress :percentage="percentage" activeColor="#8152ff" height="29">
+							<text class="u-percentage-slot">{{percentage}}%</text>
+						</u-line-progress>
+					</view>
+					<view class="tags">
+						<view class="tag-left">
+							<u--text align="left" color="#b2b4b7" size="28rpx" :text="'Supply: '+totalSupply"></u--text>
+						</view>
+						<view class="tag-right">
+							<u--text align="right" color="#b2b4b7" size="28rpx" text="Total: 200,000,000"></u--text>
+						</view>
+					</view>
+				</view>
+
+				<view class="item">
+					<u--text text="Miner Fee" color="#FFF" align="left" size="15" bold></u--text>
+					<view class="slipList">
+						<view class="fee-item" :class="minerFee==1?'bgFFF':'bgNonce'" @click="selectMinerFee(1)">
+							Slow
+						</view>
+						<view class="fee-item" :class="minerFee==2?'bgFFF':'bgNonce'" @click="selectMinerFee(2)">
+							Avg
+						</view>
+						<view class="fee-item" :class="minerFee==3?'bgFFF':'bgNonce'" @click="selectMinerFee(3)">
+							Fast
+						</view>
+					</view>
+				</view>
+
+				<view style="width: 100%;">
+					<u--input style="height: 65rpx;" placeholderStyle="color:#bcbcbc;" color="#FFF"
+						placeholder="Please enter the inviter's address" border="surround" v-model="rec"></u--input>
+				</view>
+
+				<u-button class="btn" @click="mint" color="linear-gradient(130deg,#6954ff,#9f77fb)">
+					<text style="font-size: 15px;">Complete</text>
+				</u-button>
+			</view>
+
+
+			<view class="collapse-panel">
+				<u--text align="center" color="#fff" bold size="45rpx" text="More Information"></u--text>
+				<u-collapse class="collapse" accordion :border="false">
+					<u-collapse-item title="What is BRC20pm?" :clickable="false">
+						<view class="rule">
+							<u--text class="text" color="#b2b4b7" size="26rpx"
+								text="BRC20pm is the abbreviation of BRC20 programmable module, and its vision is to make BRC20 have the same Turing-complete functionality as Ethereum."></u--text>
+						</view>
+					</u-collapse-item>
+					<u-collapse-item title="What are the Mint Rules?" :clickable="false">
+						<view class="rule">
+							<u--text class="text" color="#b2b4b7" size="26rpx"
+								text="• Your inviter must hold 1000 $BPM"></u--text>
+							<u--text class="text" color="#b2b4b7" size="26rpx"
+								text="• The quantity per mint is 2000 $BPM"></u--text>
+							<u--text class="text" color="#b2b4b7" size="26rpx"
+								text="• By recommending subordinates, you can get up to 1000 $PM reward"></u--text>
+						</view>
+					</u-collapse-item>
+					<u-collapse-item title="How are rewards distributed?" :clickable="false">
+						<view class="rule">
+							<u--text class="text" color="#b2b4b7" size="26rpx" text="• If B Mint, A will receive a reward of 1000. 
+							• If C Mint, B and A will each receive a bonus of 500. 
+							• If D Mint, C will get a reward of 500, B will get a reward of 400, and A will get a reward of 100."></u--text>
+						</view>
+					</u-collapse-item>
+					<u-collapse-item title="Solemnly declare" :clickable="false">
+						<view class="rule">
+							<u--text class="text" color="#b2b4b7" size="26rpx"
+								text="This is just a small experiment to prove the achievements of BRC20 programmable technology. It has no value. The only benefit is the AMM Swap fee dividend based on the BRC20 programmable module. Please treat it rationally."></u--text>
+						</view>
+					</u-collapse-item>
+				</u-collapse>
+
+			</view>
+
+
+			<u-modal :overlayStyle="{background:'#444956'}" title="Payment Sent" :show="showModal"
+				:closeOnClickOverlay="true" showCancelButton @close="showModal = false">
+				<u-button slot="confirmButton" text="View Block Explorer" type="success" shape="circle" @click="mempool"
+					color="linear-gradient(130deg,#6954ff,#9f77fb)"></u-button>
+			</u-modal>
+
 		</view>
+	</template>
 
-		<view class="info">
-			<u--text mode="text" align="center" size="45rpx" bold text="BIP20·₿·400M"></u--text>
-		</view>
-
-		<view class="input">
-			<u--input style="height: 60rpx;" placeholder="Please enter the invite address" border="surround"
-				v-model="inviter"></u--input>
-			<u-button @click="mint" style="margin-top: 30rpx;height: 90rpx;" text="Mint" shape="circle"
-				color="linear-gradient(to right, rgb(89, 89, 89), rgb(0, 0, 0))"></u-button>
-		</view>
-
-		<u-modal confirmText="Confirm" :show="showRule" title="AirDrop Rule" :content='rules' @confirm="showRule=false"
-			@close="showRule=false" confirmColor="#000"></u-modal>
-
-		<u-modal title="Payment Sent" :show="showModal" content="Your transaction has been successfully sent"
-			:closeOnClickOverlay="true" showCancelButton @close="showModal = false">
-			<u-button slot="confirmButton" text="View Block Explorer" type="success" shape="circle" @click="mempool"
-				color="linear-gradient(to right, rgb(89, 89, 89), rgb(0, 0, 0))"></u-button>
-		</u-modal>
+	<script>
+		const {
+			v4: uuidv4,
+			MAX
+		} = require('uuid');
 
 
-		<view style="display: flex;flex-direction: row;width: 100%;padding-top: 55rpx;">
-			<u--text @click="showRule = true" align="left" size="33rpx" color="#8a8a8a" decoration="underline"
-				text="AirDrop Rule"></u--text>
+		import Relayer from '../../js_sdk/taproot.js'
+		import utils from '../../js_sdk/utils.js';
 
-			<u--text @click="goBitScpt" align="center" size="33rpx" color="#8a8a8a" decoration="underline"
-				text="OrdScript"></u--text>
+		const TOKEN_KID = "ord2cf7d379781a8964500670d4e7084cfb84d947a"
+		const MaxTotal = 200000000
 
-			<u--text @click="share" align="right" size="33rpx" color="#8a8a8a" decoration="underline"
-				text="Share't Twitter"></u--text>
-		</view>
+		export default {
+			data() {
+				return {
+					showModal: false,
+					txid: '',
 
-	</view>
-</template>
+					wallet: null,
+					speed: 'fastestFee',
+					minerFee: 2,
+					rec: '',
 
-<script>
-	const {
-		v4: uuidv4
-	} = require('uuid');
+					balance: '0',
 
+					percentage: 0,
 
-	import Relayer from '../../js_sdk/taproot.js'
-
-
-	export default {
-		data() {
-			return {
-				showRule: false,
-				rules: `A&B 
-A-1000、B-1000
-
-A&B&C
-A-500、B-500、C-1000
-
-A&B&C&D 
-A-100、B-400、C-500、D-1000
-
-MaxSupply: 400000000
-
-The inviter's balance must be greater than or equal to 1000 ₿`,
-				value: 'This is an experimental B20 token issued based on the OrdScript Everyone can freely mint, and it also has an invitation reward mechanism of up to 3 levels.',
-				owner: '',
-				kid: 'ord83633b22d3b7a211333081bece366c8f121994a',
-				totalSuppy: 0,
-				inviter: '',
-				txid: '',
-				showModal: false,
-				speed: 'minimumFee',
-			};
-		},
-		onLoad(e) {
-			this.owner = uni.getStorageSync('wallet')
-			this.getTotalSuppy()
-
-			if (e.inviter) {
-				this.inviter = e.inviter
-			}
-		},
-		methods: {
-			async share() {
-				const result = await this.call({
-					kid: this.kid,
-					method: '$balanceOf',
-					params: [this.owner]
-				})
-
-				const balance = result.data
-
-				if (Number(balance) < 1000) {
-					uni.showToast({
-						icon: 'none',
-						title: 'balance < 1000'
-					})
-					return
+					mints: 0,
+					totalSupply: '0'
+				};
+			},
+			onLoad(e) {
+				console.log(e)
+			},
+			async onShow() {
+				this.wallet = await this.$wallet.GetAccount()
+				if (!this.wallet) {
+					this.wallet = await this.$wallet.Connect()
 				}
-				this.twitterShare()
+
+				let b1 = await this.getBalance(this.wallet)
+				this.balance = formatNumberWithCommas(utils.truncateDecimal(b1, 4).toString())
+
+				this.getTotalSupply()
 			},
-			twitterShare() {
-				const content = encodeURIComponent(`
-Based on the idea of ​​#Ordinals founder @rodarmor, used to extend #Bitcoin’s indexer protocol
-
-#BitScpt Experimental B20 Token #AirDrop`)
-
-				const url = encodeURIComponent(`
-					
-https://tool.ordscipt.com/#/pages/airdrop/airdrop?inviter=` + this.owner + `
-
-`);
-
-				const text = `${content}${url}`;
-
-				const twitter = `https://twitter.com/intent/tweet?text=${text}`;
-
-				window.location.href = twitter
-			},
-			async getTotalSuppy() {
-				const result = await this.call({
-					kid: this.kid,
-					method: '$totalSupply',
-				})
-
-				this.totalSuppy = result.data
-			},
-			async mint() {
-				if (!this.inviter) {
-					uni.showToast({
-						icon: 'none',
-						title: 'Please enter the invite address'
+			methods: {
+				//获取用户余额
+				async getBalance(address) {
+					const result = await uni.request({
+						url: this.$Node,
+						method: "POST",
+						data: {
+							jsonrpc: "2.0",
+							method: "ord_call",
+							params: {
+								kid: TOKEN_KID,
+								method: '$balanceOf',
+								params: [address]
+							},
+							id: uuidv4()
+						}
 					})
-					return
-				}
 
-				const result = await this.call({
-					kid: this.kid,
-					method: '$balanceOf',
-					params: [this.inviter]
-				})
-
-				if (result) {
-
-					if (Number(result.data) < 100) {
+					if (result[1].data.error) {
 						uni.showToast({
 							icon: 'none',
-							title: 'invalid invite address'
+							title: result[1].data.error.message
+						})
+						return 0
+					}
+
+					return result[1].data.result.data
+				},
+				//获取当前供应量
+				getTotalSupply() {
+					uni.request({
+						url: this.$Node,
+						method: "POST",
+						data: {
+							jsonrpc: "2.0",
+							method: "ord_call",
+							params: {
+								kid: TOKEN_KID,
+								method: '$totalSupply',
+							},
+							id: uuidv4()
+						},
+						success: (res) => {
+							let balance = res.data.result.data
+							this.percentage = Number(balance) / MaxTotal * 100
+							this.totalSupply = formatNumberWithCommas(balance)
+							this.mints = formatNumberWithCommas((Number(balance) / 2000).toString())
+
+						},
+						fail: (err) => {
+							uni.showToast({
+								icon: 'none',
+								title: err.errMsg
+							})
+						}
+					})
+
+				},
+				//铸造
+				async mint() {
+					let b2 = await this.getBalance(this.rec)
+					if (Number(b2) < 1000) {
+						uni.showToast({
+							icon: 'none',
+							title: 'invalid inviter address'
 						})
 						return
 					}
 
-					this.sendTapRoot({
-						kid: this.kid,
+
+					const inc = {
+						kid: TOKEN_KID,
 						method: 'mint',
-						params: [this.inviter]
-					})
-
-				}
-			},
-			async call(inc) {
-				const r = await uni.request({
-					url: this.$rpc,
-					method: "POST",
-					data: {
-						jsonrpc: "2.0",
-						method: "ord_call",
-						params: inc,
-						id: uuidv4()
+						params: [this.rec]
 					}
-				})
+					console.log(inc)
 
-				return r[1].data.result
-			},
-			async sendTapRoot(inc) {
-				// console.log(window.crypto_utils)
-				// console.log(window.tapscript)
-				console.log(inc)
-				try {
-
-					uni.showLoading({
-						mask: true
-					})
-					const r = new Relayer(inc, this.$network)
-
-					const fees = await r.getFeeRate()
-					console.log(fees)
-					const fee = fees[this.speed]
-					console.log(fee)
-					const tapScript = r.gen_TapScript(fee)
-					const amount = Number(tapScript.fee)
-
-					console.log("relayer address->>>> ", tapScript.address)
-					console.log("fee->>>> ", amount / 100000000)
-
-					const pTxid = await this.$wallet.Send(tapScript.address, amount)
-					uni.hideLoading()
-					console.log(pTxid)
-					if (pTxid) {
-
-						const hex = await r.gen_TxHex(pTxid, 0, amount)
-
-						console.log(hex)
-
-						const result = r.Broadcast(hex)
-
-						result.then(res => {
-							console.log(res.data)
-							this.addLocalTx(res.data)
-							this.txid = res.data
-							this.showModal = true
-						}).catch(err => {
-							console.log(err)
-							uni.showToast({
-								icon: 'none',
-								title: err.response.data
-							})
+					try {
+						uni.showLoading({
+							mask: true,
 						})
+
+						const r = new Relayer(inc, this.$network)
+
+						const fees = await r.getFeeRate()
+						const fee = fees[this.speed]
+						console.log(fee)
+						const tapScript = r.gen_TapScript(fee)
+
+						const amount = Number(tapScript.fee)
+
+						console.log("relayer address->>>> ", tapScript.address)
+						console.log("fee->>>> ", amount)
+
+
+						const pTxid = await this.$wallet.Send(tapScript.address, amount)
+						uni.hideLoading()
+
+						console.log(pTxid)
+						if (pTxid) {
+
+							const hex = await r.gen_TxHex(pTxid, 0, amount)
+
+							console.log(hex)
+
+							const result = r.Broadcast(hex)
+
+							result.then(res => {
+								console.log(res.data)
+								this.txid = res.data
+								this.showModal = true
+							}).catch(err => {
+								console.log(err)
+								uni.showToast({
+									icon: 'none',
+									title: err.response.data
+								})
+							})
+						}
+					} catch (e) {
+						uni.showToast({
+							icon: 'none',
+							title: e.message
+						})
+						//TODO handle the exception
 					}
 
-				} catch (e) {
-					uni.showToast({
-						icon: 'none',
-						title: e.message
-					})
-					//TODO handle the exception
+				},
+				selectMinerFee(index) {
+					switch (index) {
+						case 3:
+							this.speed = 'fastestFee'
+							break;
+						case 2:
+							this.speed = 'halfHourFee'
+							break
+						case 1:
+							this.speed = 'hourFee'
+							break
+					}
+					this.minerFee = index
+				},
+				mempool() {
+					switch (this.$network) {
+						case "mainnet":
+							window.location.href = "https://mempool.space/tx/" + this.txid
+							break;
+						case "testnet":
+							window.location.href = "https://mempool.space/testnet/tx/" + this.txid
+							break;
+					}
 				}
-			},
-			mempool() {
-				switch (this.$network) {
-					case "mainnet":
-						window.location.href = "https://mempool.space/tx/" + this.txid
-						break;
-					case "testnet":
-						window.location.href = "https://mempool.space/testnet/tx/" + this.txid
-						break;
-				}
-			},
-			goOrdScript() {
-				window.location.href = "https://docs.ordscript.com"
 			}
-
-		}
-	}
-</script>
-
-<style lang="scss">
-	.mint {
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		padding: 20rpx;
-		padding-top: 50rpx;
-		height: 100%;
-
-		.navbar {
-			height: 50rpx;
-			display: flex;
-			flex-direction: row;
 		}
 
-		.textarea {
-			width: 85vw;
-		}
 
-		.number {
+		function formatNumberWithCommas(numStr) {
+			// 去除任何可能存在的逗号
+			numStr = numStr.replace(/,/g, '');
+			// 分割整数部分和小数部分（如果有）
+			let parts = numStr.split('.');
+			let integerPart = parts[0];
+			let decimalPart = parts.length > 1 ? '.' + parts[1] : '';
+
+			// 在每三位数字后添加逗号
+			let formattedIntegerPart = integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+
+			// 合并整数部分和小数部分（如果有）
+			return formattedIntegerPart + decimalPart;
+		}
+	</script>
+
+	<style lang="scss" scoped>
+		.mint {
+			margin: 0 auto;
+			background-color: #151515;
 			display: flex;
 			flex-direction: column;
 			align-items: center;
-			margin-bottom: 30rpx;
-			margin-top: 30rpx;
+			padding-bottom: 100rpx;
+
+			.header {
+				width: 100vw;
+				height: 70px;
+				background-color: #14191f;
+			}
+
+			.title {
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+				justify-content: center;
+				margin: 30rpx 0rpx 30rpx 0rpx;
+				margin-top: 100rpx;
+			}
+
+			.content {
+				width: 85%;
+				margin: 0 auto;
+				max-width: 375px;
+
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+				border-radius: 15rpx;
+				background-color: red;
+				padding: 30rpx;
+				background-color: #20252f;
+				margin-top: 70rpx;
+
+
+				.item {
+					width: 94%;
+					border-radius: 10rpx;
+					padding: 25rpx 20rpx 25rpx 20rpx;
+					margin-bottom: 30rpx;
+					background: linear-gradient(180deg, #2f344e, rgba(47, 52, 78, .14));
+
+					.tags {
+						display: flex;
+						flex-direction: row;
+						align-items: center;
+						justify-content: center;
+
+						.tag {
+							display: flex;
+							flex-direction: column;
+						}
+
+						.tag-left {
+							flex: 1;
+							align-items: flex-start;
+						}
+
+						.tag-center {
+							flex: 2;
+							align-items: center;
+						}
+
+						.tag-right {
+							flex: 1;
+							align-items: flex-end;
+						}
+
+
+					}
+
+					.progress {
+						margin-top: 20rpx;
+						margin-bottom: 20rpx;
+
+						.u-percentage-slot {
+							font-size: 20rpx;
+						}
+					}
+
+
+					.slipList {
+						width: 100%;
+						height: 90rpx;
+						background-color: #444956;
+						border-radius: 15rpx;
+						display: flex;
+						flex-direction: row;
+						align-items: center;
+						justify-content: center;
+						margin-top: 10rpx;
+						margin-bottom: 20rpx;
+
+						.fee-item {
+							flex: 1;
+							// padding: 15rpx;
+							padding-top: 15rpx;
+							padding-bottom: 15rpx;
+							height: 45rpx;
+							display: flex;
+							align-items: center;
+							justify-content: center;
+							margin: 0rpx 10rpx;
+							border-radius: 10rpx;
+							font-size: 25rpx;
+						}
+					}
+
+				}
+
+			}
 		}
 
-		.input {
-			width: 93vw;
-			margin: 0 auto;
-			margin-top: 30rpx;
+		.rule {
+			.text {
+				line-height: 45rpx;
+			}
 		}
 
-		.info {
-			width: 93vw;
-			margin: 0 auto;
+
+
+		.text-top {
+			font-size: 36rpx;
+			color: #fff;
 		}
-	}
-</style>
+
+		.text-bottom {
+			font-size: 28rpx;
+			color: #b2b4b7;
+		}
+
+		.title-top {
+			font-size: 100rpx;
+			font-weight: bold;
+		}
+
+		.title-bottom {
+			line-height: 45rpx;
+			font-size: 50rpx;
+			font-weight: 500px;
+		}
+
+		.bgFFF {
+			color: #FFF;
+			font-weight: bold;
+			background-color: #8152ff;
+		}
+
+		.bgNonce {
+			color: #FFF;
+			background-color: transparent;
+		}
+
+		.btn {
+			margin-top: 35rpx;
+			height: 50px;
+			border-radius: 10rpx;
+		}
+
+		.u-border {
+			border-width: 1rpx !important;
+			border-color: #bcbcbc;
+			border-style: solid;
+		}
+
+		.collapse-panel {
+			width: 90%;
+			margin: 0 auto;
+			margin-top: 100rpx;
+
+			.collapse {
+				max-width: 410px;
+				margin: 0 auto;
+				margin-top: 20rpx;
+			}
+		}
+
+		/* 使用深度选择器来覆盖带有 data-v- 前缀的类 */
+		::v-deep .u-cell__body {
+			padding: 10px 0px 10px 0px;
+		}
+
+		::v-deep .u-collapse-item__content__text {
+			padding: 10px 0px 10px 0px;
+		}
+
+		::v-deep .u-cell__title-text {
+			color: #f1f1f1;
+		}
+	</style>

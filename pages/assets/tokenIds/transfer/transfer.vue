@@ -43,8 +43,8 @@
 				color="linear-gradient(to right, rgb(89, 89, 89), rgb(0, 0, 0))"></u-button>
 		</view>
 
-		<u-modal title="Payment Sent" :show="showModal" content="Your transaction has been successfully sent"
-			:closeOnClickOverlay="true" showCancelButton @close="showModal = false">
+		<u-modal title="Payment Sent" :show="showModal" :closeOnClickOverlay="true" showCancelButton
+			@close="showModal = false">
 			<u-button slot="confirmButton" text="View Block Explorer" type="success" shape="circle" @click="mempool"
 				color="linear-gradient(to right, rgb(89, 89, 89), rgb(0, 0, 0))"></u-button>
 		</u-modal>
@@ -105,7 +105,7 @@
 					return
 				}
 
-
+	
 				if (!this.speed) {
 					uni.showToast({
 						icon: 'none',

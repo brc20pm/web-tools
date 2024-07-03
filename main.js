@@ -12,21 +12,9 @@ Vue.prototype.$wallet = wallet
 
 Vue.prototype.$network = "testnet"
 
-// Vue.prototype.$market = "/market"
 
-// Vue.prototype.$indexer = "/indexer"
+Vue.prototype.$Node = "https://testnet.brc20pm.com"
  
-// Vue.prototype.$rpc = "/rpc" 
-
-Vue.prototype.$market = "https://37526sxcj546.vicp.fun"
-
-Vue.prototype.$indexer = "https://testnet.ordscript.com"
-
-Vue.prototype.$rpc = "https://testnet.ordscript.com"
- 
-
-
-
 
 Vue.config.productionTip = false
 App.mpType = 'app'

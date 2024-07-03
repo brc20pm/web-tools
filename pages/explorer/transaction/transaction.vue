@@ -2,6 +2,7 @@
 	<view class="bg">
 		<u-navbar title="Transaction" height="50px" :autoBack="true">
 		</u-navbar>
+		
 		<view class="brief">
 			<view class="token-item">
 				<u-cell :title="`Height`" :title-style="{'font-size':'30rpx','font-weight':'450'}">
@@ -24,7 +25,7 @@
 				</u-cell>
 				<u-cell v-if="tx.logs" :title="`Logs`" :border="false"
 					:title-style="{'font-size':'30rpx','font-weight':'450'}">
-					<text slot="right-icon" style="font-size: 30rpx;" @click="goLogs(tx.logs)" >{{tx.logs.length}}</text>
+					<text slot="right-icon" style="font-size: 30rpx;" @click="goLogs(tx.logs)">{{tx.logs.length}}</text>
 				</u-cell>
 				<u-cell :title="`Status`" :border="false" :title-style="{'font-size':'30rpx','font-weight':'450'}">
 					<text slot="right-icon" style="font-size: 30rpx;">{{tx.status==1?'success':'fail'}}</text>
@@ -37,25 +38,34 @@
 		</view>
 		<view class="report">
 			<u--text align="left" size="33rpx" bold text="Out"></u--text>
-			<u--textarea autoHeight :value="tx.op=='deploy'?tx.kid:tx.out?tx.out:'No output'+''" placeholder="Out content"
-				disabled></u--textarea>
+			<u--textarea autoHeight :value="tx.op=='deploy'?tx.kid:tx.out?tx.out+'':'No output'+''"
+				placeholder="Out content" disabled></u--textarea>
 		</view>
+
+		<u-loading-page :loading="loading" :iconSize="35" loadingText="Loading..." bg-color="#fff"></u-loading-page>
+
 	</view>
 </template>
 
 <script>
 	import http from "../../../js_sdk/axios.js"
-	
+
 	export default {
 		data() {
 			return {
 				txHash: '',
-				tx: {}
+				tx: {},
+				loading: true
 			};
 		},
 		onLoad(e) {
 			this.txHash = e.txHash
 			this.getTx()
+		},
+		onShow() {
+			setTimeout(() => {
+				this.loading = false
+			}, 1000)
 		},
 		methods: {
 			async getTx() {
@@ -80,7 +90,7 @@
 			},
 			getTransaction() {
 				uni.request({
-					url: this.$indexer+"/api/tx/" + this.txHash,
+					url: this.$Node + "/api/tx/" + this.txHash,
 					success: (res) => {
 						if (res.data.data) {
 							this.tx = res.data.data
@@ -103,9 +113,9 @@
 					}
 				})
 			},
-			goLogs(logs){
+			goLogs(logs) {
 				uni.navigateTo({
-					url:'/pages/explorer/transaction/logs/logs?data='+JSON.stringify(logs)
+					url: '/pages/explorer/transaction/logs/logs?data=' + JSON.stringify(logs)
 				})
 			},
 			mempool(txid) {

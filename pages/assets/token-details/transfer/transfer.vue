@@ -18,7 +18,7 @@
 			<view style="margin-top: 50rpx;">
 				<u--text style="padding-bottom: 15rpx;" bold text="Transfer Amount"></u--text>
 				<view class="amount">
-					<u--input class="input" fontSize="18px" border="nonce" placeholder="0" v-model="amount"></u--input>
+					<u--input class="input" fontSize="18px" border="nonce" placeholder="0" v-model="amount" type="digit"></u--input>
 					<view class="balance">
 						<u--text text="Balance" align="left"></u--text>
 						<u--text :text="balance" align="right"></u--text>
@@ -46,8 +46,8 @@
 				color="linear-gradient(to right, rgb(89, 89, 89), rgb(0, 0, 0))"></u-button>
 		</view>
 
-		<u-modal title="Payment Sent" :show="showModal" content="Your transaction has been successfully sent"
-			:closeOnClickOverlay="true" showCancelButton @close="showModal = false">
+		<u-modal title="Payment Sent" :show="showModal" :closeOnClickOverlay="true" showCancelButton
+			@close="showModal = false">
 			<u-button slot="confirmButton" text="View Block Explorer" type="success" shape="circle" @click="mempool"
 				color="linear-gradient(to right, rgb(89, 89, 89), rgb(0, 0, 0))"></u-button>
 		</u-modal>
@@ -60,6 +60,7 @@
 	} = require('uuid');
 
 	import Relayer from '../../../../js_sdk/taproot.js'
+	import utils from '../../../../js_sdk/utils.js';
 
 	export default {
 		data() {
@@ -99,7 +100,7 @@
 		methods: {
 			getBalance() {
 				uni.request({
-					url: this.$rpc,
+					url: this.$Node,
 					method: "POST",
 					data: {
 						jsonrpc: "2.0",
@@ -112,7 +113,8 @@
 						id: uuidv4()
 					},
 					success: (res) => {
-						this.balance = res.data.result.data
+						console.log(res)
+						this.balance = utils.truncateDecimal(res.data.result.data, 8)
 					},
 					fail: (err) => {
 						uni.showToast({

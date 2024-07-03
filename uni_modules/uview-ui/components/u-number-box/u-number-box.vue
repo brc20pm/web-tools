@@ -39,7 +39,7 @@
 			    @blur="onBlur"
 			    @focus="onFocus"
 			    @input="onInput"
-			    type="number"
+			    type="digit"
 			    :style="[inputStyle]"
 			/>
 		</slot>

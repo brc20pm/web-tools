@@ -74,6 +74,12 @@
 			"style": {
 				"navigationBarTitleText": ""
 			}
+		},
+		{
+			"path": "pages/airdrop/airdrop",
+			"style": {
+				"navigationBarTitleText": ""
+			}
 		}
 	],
 	"globalStyle": {
@@ -83,8 +89,8 @@
 	},
 	"tabBar": {
 		"height": "70px",
-		"borderStyle": "#000000",
-		"backgroundColor": "#000000",
+		"borderStyle": "#06090c",
+		"backgroundColor": "#06090c",
 		"fontSize": "28rpx",
 		"iconWidth": "28px",
 		"color": "#8a8a8a",
@@ -106,13 +112,8 @@
 				"pagePath": "pages/explorer/explorer",
 				"iconPath": "static/2.png",
 				"selectedIconPath": "static/22.png"
-			},
-			{
-				"text": "Pager",
-				"pagePath": "pages/pager/pager",
-				"iconPath": "static/3.png",
-				"selectedIconPath": "static/33.png"
 			}
+
 		]
 	},
 	"uniIdRouter": {}

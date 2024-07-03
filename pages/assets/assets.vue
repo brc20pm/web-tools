@@ -6,7 +6,7 @@
 		</view>
 
 		<view class="tokens">
-			<u-list v-if="current==0" >
+			<u-list v-if="current==0">
 				<u-list-item v-for="(item, index) in tokenList" :key="index">
 					<view class="token-item">
 						<u-cell @click="tokenClick(item)" :title="item.symbol"
@@ -14,8 +14,7 @@
 							<u-avatar slot="icon" shape="circle" size="40" :text="item.symbol[0]" bgColor="#000"
 								customStyle="margin: -3px 5px -3px 0"></u-avatar>
 							<text slot="label" style="font-size: 25rpx;">{{item.name}}</text>
-							<text slot="right-icon"
-								style="font-size: 35rpx;">{{Number(item.amount).toFixed(4)+''}}</text>
+							<text slot="right-icon" style="font-size: 35rpx;">{{truncateDecimal(item.amount)}}</text>
 						</u-cell>
 					</view>
 				</u-list-item>
@@ -31,7 +30,7 @@
 	import fuiSegmentedControl from "@/components/fui-segmented-control/fui-segmented-control.vue"
 
 	import wallet from "../../js_sdk/wallet";
-	
+	import utils from '../../js_sdk/utils.js';
 	export default {
 		components: {
 			fuiSegmentedControl
@@ -47,11 +46,11 @@
 		},
 		async onShow() {
 			this.wallet = await this.$wallet.GetAccount()
-			if(!this.wallet){
-				this.wallet =  await this.$wallet.Connect()
+			if (!this.wallet) {
+				this.wallet = await this.$wallet.Connect()
 				this.getAssets()
 				uni.setStorageSync('wallet', this.wallet)
-			}else{
+			} else {
 				this.getAssets()
 			}
 		},
@@ -69,9 +68,12 @@
 					url: '/pages/assets/token-details/token-details?data=' + JSON.stringify(e)
 				})
 			},
+			truncateDecimal(v) {
+				return utils.truncateDecimal(v, 5)
+			},
 			getAssets() {
 				uni.request({
-					url: this.$market + "/api/wallet/" + this.wallet,
+					url: this.$Node + "/assets/wallet/" + this.wallet,
 					success: (res) => {
 						if (res.data.data) {
 							if (res.data.data.t20) {
@@ -97,7 +99,6 @@
 		const multiplier = Math.pow(10, decimalPlaces);
 		return (Math.round(num * multiplier) / multiplier).toString();
 	}
-	
 </script>
 
 <style lang="scss">
@@ -107,6 +108,7 @@
 		flex-direction: column;
 		background-color: #FFF;
 		padding-bottom: 70px;
+
 		.tab {
 			width: 92%;
 			margin: 0 auto;

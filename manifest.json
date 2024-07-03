@@ -1,6 +1,6 @@
 {
-    "name" : "Tools",
-    "appid" : "__UNI__GD29003D",
+    "name" : "BRC20pm.com",
+    "appid" : "__UNI__6E64BE7",
     "description" : "",
     "versionName" : "1.0.0",
     "versionCode" : "100",
@@ -92,7 +92,7 @@
                     "pathRewrite" : {
                         "^/indexer" : ""
                     }
-                }, 
+                },
                 "/rpc" : {
                     "target" : "https://testnet.ordscript.com", //实际请求服务器地址
                     "changeOrigin" : true,
