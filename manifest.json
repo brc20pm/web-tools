@@ -63,9 +63,9 @@
     },
     "vueVersion" : "2",
     "h5" : {
-        "title" : "Tools",
+        "title" : "BRC20pm.com",
         "router" : {
-            "mode" : "history",
+            "mode" : "hash",
             "base" : "./"
         },
         "optimization" : {

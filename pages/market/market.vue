@@ -470,7 +470,7 @@
 	import Relayer from '../../js_sdk/taproot.js';
 	import utils from '../../js_sdk/utils.js';
 
-	const DEX_KID = 'orde191f2d030d56b92d7df0d0ff1909b0f714149a';
+	const DEX_KID = 'ord8f66a22ea3416e18f27f56395b0f716592223ef';
 
 	export default {
 		data() {
@@ -491,13 +491,13 @@
 				txid: '',
 				tokenList: [],
 				fromToken: {
-					"kid": "ord68b6df9283c408efe484e7e4c5af166d7d8973b",
+					"kid": "ordc75f1897ee853fc1b8a482eedb1ca2e4df7b17c",
 					"name": "Test Token - ORDI",
 					"symbol": "$ORDI",
 					"amount": "0.0000"
 				},
 				toToken: {
-					"kid": "orde4786352e5b78387310dfef8f697a82fc4f3863",
+					"kid": "ord16e5311f15f3c74aa41a2262b0a39b4c5261348",
 					"name": "Test Token - PIZZA",
 					"symbol": "$PIZZA",
 					"amount": "0.0000"
@@ -515,13 +515,13 @@
 				tokenMeta: {},
 				isToken0: false,
 				token0: {
-					"kid": "ord68b6df9283c408efe484e7e4c5af166d7d8973b",
+					"kid": "ordc75f1897ee853fc1b8a482eedb1ca2e4df7b17c",
 					"name": "Test Token - ORDI",
 					"symbol": "$ORDI",
 					"amount": "0.0000"
 				},
 				token1: {
-					"kid": "orde4786352e5b78387310dfef8f697a82fc4f3863",
+					"kid": "ord16e5311f15f3c74aa41a2262b0a39b4c5261348",
 					"name": "Test Token - PIZZA",
 					"symbol": "$PIZZA",
 					"amount": "0.0000"
