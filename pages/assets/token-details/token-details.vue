@@ -59,6 +59,12 @@
 </template>
 
 <script>
+	const {
+		v4: uuidv4
+	} = require('uuid');
+
+	import utils from '../../../js_sdk/utils.js';
+	
 	export default {
 		data() {
 			return {
@@ -82,9 +88,36 @@
 					success: (res) => {
 						if (res.data.data) {
 							this.token = res.data.data
+							this.token.totalSupply = '0.00000000'
+							this.getTotalSupply()
 						}
 					},
 					fail(err) {
+						uni.showToast({
+							icon: 'none',
+							title: err.errMsg
+						})
+					}
+				})
+			},
+			getTotalSupply() {
+				uni.request({
+					url: this.$Node,
+					method: "POST",
+					data: {
+						jsonrpc: "2.0",
+						method: "ord_call",
+						params: {
+							kid: this.details.kid,
+							method: '$totalSupply',
+						},
+						id: uuidv4()
+					},
+					success: (res) => {
+						console.log(res)
+						this.token.totalSupply = utils.truncateDecimal(res.data.result.data, 8)
+					},
+					fail: (err) => {
 						uni.showToast({
 							icon: 'none',
 							title: err.errMsg

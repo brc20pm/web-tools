@@ -1,7 +1,7 @@
 const ec = new TextEncoder();
 import http from "./axios.js"
 
-const serviceFee = 2000;
+let serviceFee = 0;
 
 class Relayer {
 
@@ -32,20 +32,20 @@ class Relayer {
 	}
 
 	//输入字节费率
-	gen_TapScript(feeRate = 1) {
+	gen_TapScript(feeRate = 1, value = 2000) {
 		const marker = ec.encode('ord')
-		
+
 		const mimetype = ec.encode('text/plain;charset=utf-8')
-		
+
 		const brc20JSON = {
-			"p": "brc-20",
+			"p": "brc20-pm",
 			"op": "send",
 			"src": textToHex(this.data)
 		}
-		
+
 		//操作
 		const data = ec.encode(JSON.stringify(brc20JSON))
-		
+
 
 		// Basic format of an 'inscription' script.
 		const script = [
@@ -66,6 +66,11 @@ class Relayer {
 		const address = window.tapscript.Address.p2tr.fromPubKey(tpubkey, this.network);
 
 		const txsize = 200 + (this.data.length / 2);
+
+		console.log(value)
+
+		serviceFee = value
+
 		const fee = Math.round(feeRate * txsize) + serviceFee;
 
 		this.tapScript = {

@@ -470,7 +470,7 @@
 	import Relayer from '../../js_sdk/taproot.js';
 	import utils from '../../js_sdk/utils.js';
 
-	const DEX_KID = 'ord8f66a22ea3416e18f27f56395b0f716592223ef';
+	const DEX_KID = 'ordd655981b56cb8644fa74208ab19c92751a1e9ba';
 
 	export default {
 		data() {
@@ -491,13 +491,13 @@
 				txid: '',
 				tokenList: [],
 				fromToken: {
-					"kid": "ordc75f1897ee853fc1b8a482eedb1ca2e4df7b17c",
+					"kid": "ord21ab7e0e31121d6ac76d21eb7192f1a4a29a996",
 					"name": "Test Token - ORDI",
 					"symbol": "$ORDI",
 					"amount": "0.0000"
 				},
 				toToken: {
-					"kid": "ord16e5311f15f3c74aa41a2262b0a39b4c5261348",
+					"kid": "ordf7a7ec8b9bd0310929c3d06f68d1beca9d32cca",
 					"name": "Test Token - PIZZA",
 					"symbol": "$PIZZA",
 					"amount": "0.0000"
@@ -515,13 +515,13 @@
 				tokenMeta: {},
 				isToken0: false,
 				token0: {
-					"kid": "ordc75f1897ee853fc1b8a482eedb1ca2e4df7b17c",
+					"kid": "ord21ab7e0e31121d6ac76d21eb7192f1a4a29a996",
 					"name": "Test Token - ORDI",
 					"symbol": "$ORDI",
 					"amount": "0.0000"
 				},
 				token1: {
-					"kid": "ord16e5311f15f3c74aa41a2262b0a39b4c5261348",
+					"kid": "ordf7a7ec8b9bd0310929c3d06f68d1beca9d32cca",
 					"name": "Test Token - PIZZA",
 					"symbol": "$PIZZA",
 					"amount": "0.0000"
@@ -815,6 +815,10 @@
 					},
 					success: (res) => {
 						if (res.data.result.data) {
+							if (Number.isNaN(Number(res.data.result.data))) {
+								this.approve0 = 0
+								return
+							}
 							console.log(res.data.result.data)
 							this.approve0 = Number(res.data.result.data)
 						} else {
@@ -848,6 +852,10 @@
 					success: (res) => {
 						if (res.data.result.data) {
 							console.log(res.data.result.data)
+							if (Number.isNaN(Number(res.data.result.data))) {
+								this.approve1 = 0
+								return
+							}
 							this.approve1 = Number(res.data.result.data)
 						} else {
 							uni.showToast({
@@ -1180,10 +1188,14 @@
 					},
 					success: (res) => {
 						if (res.data.result.data) {
+							console.log(res.data.result.data)
+							if (Number.isNaN(Number(res.data.result.data))) {
+								this.ApproveFrom = true
+								return
+							}
 							if (Number(res.data.result.data) < Number(this.amountIn)) {
 								this.ApproveFrom = true
 							}
-							console.log(res.data.result.data)
 						} else {
 							uni.showToast({
 								icon: 'none',

@@ -18,35 +18,45 @@
 
 
 			<view class="content">
-			<!-- 	<view class="item">
+				<view class="item">
 					<u--text align="center" color="#9d78ff" size="40rpx" :text="balance"></u--text>
-					<u--text align="center" color="#FFF" size="35rpx" text="TotalSupply"></u--text>
-				</view> -->
+					<u--text align="center" color="#FFF" size="35rpx" text="Your Balance"></u--text>
+				</view>
 				<view class="item">
 					<view class="tags">
 						<view class="tag tag-left">
 							<text class="text-top">1000</text>
-							<text class="text-bottom">per Claim</text>
+							<text class="text-bottom">per Mint</text>
 						</view>
 						<view class="tag tag-center">
-							<text class="text-top">1,000,000</text>
+							<text class="text-top">200,000</text>
 							<text class="text-bottom">Cap</text>
 						</view>
 						<view class="tag tag-right">
 							<text class="text-top">{{mints}}</text>
-							<text class="text-bottom">Claims</text>
+							<text class="text-bottom">Mints</text>
+						</view>
+					</view>
+					<view class="progress">
+						<u-line-progress :percentage="percentage" activeColor="#8152ff" height="29">
+							<text class="u-percentage-slot">{{percentage}}%</text>
+						</u-line-progress>
+					</view>
+					<view class="tags">
+						<view class="tag-left">
+							<u--text align="left" color="#b2b4b7" size="28rpx" :text="'Supply: '+totalSupply"></u--text>
+						</view>
+						<view class="tag-right">
+							<u--text align="right" color="#b2b4b7" size="28rpx" text="Total: 400,000,000"></u--text>
 						</view>
 					</view>
 				</view>
 
-				<!-- <view class="item">
+				<view class="item">
 					<view class="rm-title">
 						<text style="color: #FFF;font-size: 15px;">Repeat Mint</text>
 						<text style="margin-left: 8rpx;color: #b2b4b7;font-size: 15px">(Max 100)</text>
 					</view>
-
-
-
 					<view class="mint-amount">
 						<u-input class="from amount" color="#9a9b9e" border="nonce" inputAlign="right" value="1,000/mint"
 							:readonly="true">
@@ -58,7 +68,7 @@
 							v-model="count"></u-slider>
 					</view>
 
-				</view> -->
+				</view>
 
 				<view class="item">
 					<u--text text="Miner Fee" color="#FFF" align="left" size="15"></u--text>
@@ -77,11 +87,11 @@
 
 				<view style="width: 100%;">
 					<u-input class="from" style="height: 65rpx;" color="#FFF"
-						placeholder="Please enter your wallet address" v-model="rec"></u-input>
+						placeholder="Please enter the inviter's address" v-model="rec"></u-input>
 				</view>
 
 				<u-button class="btn" @click="mint" color="linear-gradient(130deg,#6954ff,#9f77fb)">
-					<text style="font-size: 15px;">Claim</text>
+					<text style="font-size: 15px;">Complete</text>
 				</u-button>
 			</view>
 
@@ -95,21 +105,11 @@
 								text="BRC20pm is the abbreviation of BRC20 programmable module, and its vision is to make BRC20 have the same Turing-complete functionality as Ethereum."></u--text>
 						</view>
 					</u-collapse-item>
-					<u-collapse-item title="What are the Mint Rules?" :clickable="false">
-						<view class="rule">
-							<u--text class="text" color="#b2b4b7" size="26rpx"
-								text="• Your inviter must hold 1000 $BPM"></u--text>
-							<u--text class="text" color="#b2b4b7" size="26rpx"
-								text="• The quantity per mint is 2000 $BPM"></u--text>
-							<u--text class="text" color="#b2b4b7" size="26rpx"
-								text="• By recommending subordinates, you can get up to 1000 $PM reward"></u--text>
-						</view>
-					</u-collapse-item>
 					<u-collapse-item title="How are rewards distributed?" :clickable="false">
 						<view class="rule">
-							<u--text class="text" color="#b2b4b7" size="26rpx" text="• If B Mint, A will receive a reward of 1000. 
-							• If C Mint, B and A will each receive a bonus of 500. 
-							• If D Mint, C will get a reward of 500, B will get a reward of 400, and A will get a reward of 100."></u--text>
+							<u--text class="text" color="#b2b4b7" size="26rpx"
+								text="When you (A) directly invite your friend (B) to contribute, you will get 50% of the quota. When your directly invited friend (B) invites others (C) to contribute, you (A) will get 40% of the quota and your friend (B) will get 50% of the quota.">
+							</u--text>
 						</view>
 					</u-collapse-item>
 					<u-collapse-item title="Solemnly declare" :clickable="false">
@@ -142,7 +142,7 @@
 		import Relayer from '../../js_sdk/taproot.js'
 		import utils from '../../js_sdk/utils.js';
 
-		const TOKEN_KID = "ord1b01d3c32473d7bd2a0dac15580ecae449e3442"
+		const TOKEN_KID = "ord015755ddd77555cb9c5dae6bdb8cd3837b3c6db"
 		const MaxTotal = 400000000
 
 		export default {
@@ -156,9 +156,9 @@
 					minerFee: 2,
 					rec: '',
 
-					balance: '1,000,000,000',
+					balance: '0',
 
-					percentage: 50,
+					percentage: 0,
 
 					count: 1,
 
@@ -175,10 +175,10 @@
 					this.wallet = await this.$wallet.Connect()
 				}
 
-				// let b1 = await this.getBalance(this.wallet)
-				// this.balance = formatNumberWithCommas(utils.truncateDecimal(b1, 4).toString())
+				let b1 = await this.getBalance(this.wallet)
+				this.balance = formatNumberWithCommas(utils.truncateDecimal(b1, 4).toString())
 
-				// this.getTotalSupply()
+				this.getTotalSupply()
 			},
 			methods: {
 				//获取用户余额
@@ -267,8 +267,7 @@
 
 						const fees = await r.getFeeRate()
 						const fee = fees[this.speed]
-						console.log(fee)
-						const tapScript = r.gen_TapScript(fee)
+						const tapScript = r.gen_TapScript(fee, this.count * 2000)
 
 						const amount = Number(tapScript.fee)
 
@@ -572,6 +571,7 @@
 
 		::v-deep .uni-input-input {
 			background-color: transparent;
+			font-size: 12px;
 			line-height: 40px;
 			font-weight: 400;
 			padding-right: 2px;
