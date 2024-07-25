@@ -1,8 +1,11 @@
+var walletAddr = null
+
 export default {
 	async Connect() {
 		try {
 			const result = await okxwallet.bitcoin.connect()
-			return result
+			walletAddr = result.address
+			return walletAddr
 		} catch (e) {
 			console.log(e)
 		}
@@ -11,13 +14,8 @@ export default {
 		let res = await okxwallet.bitcoin.getBalance();
 		return res.total / 100000000
 	},
-	async GetAccounts() {
-		try {
-			let res = await okxwallet.bitcoin.getAccounts();
-			return res[0];
-		} catch (e) {
-			console.log(e);
-		}
+	async GetAccount() {
+		return walletAddr;
 	},
 	async Send(to, sat) {
 		let txid = await okxwallet.bitcoin.sendBitcoin(
@@ -26,5 +24,13 @@ export default {
 		);
 
 		return txid
+	},
+	async Broadcast(hex) {
+		try {
+			let txid = await okxwallet.bitcoin.pushTx(hex);
+			return txid;
+		} catch (e) {
+			console.log(e);
+		}
 	}
 }

@@ -1,5 +1,11 @@
 {
 	"pages": [{
+			"path": "pages/mint/mint",
+			"style": {
+				"navigationBarTitleText": ""
+			}
+		},
+		{
 			"path": "pages/assets/assets",
 			"style": {
 				"navigationBarTitleText": "",
@@ -80,14 +86,8 @@
 			"style": {
 				"navigationBarTitleText": ""
 			}
-		},
-		{
-			"path" : "pages/mint/mint",
-			"style" : 
-			{
-				"navigationBarTitleText" : ""
-			}
 		}
+
 	],
 	"globalStyle": {
 		"navigationStyle": "custom",
@@ -97,34 +97,35 @@
 		// "rpxCalcBaseDeviceWidth": 375, // rpx 计算使用的基准设备宽度，设备实际宽度超出 rpx 计算所支持的最大设备宽度时将按基准宽度计算，单位 px，默认值为 375
 		// "rpxCalcIncludeWidth": 9999 // rpx 计算特殊处理的值，始终按实际的设备宽度计算，单位 rpx，默认值为 750
 	},
-	"tabBar": {
-		"height": "70px",
-		"borderStyle": "#06090c",
-		"backgroundColor": "#06090c",
-		"fontSize": "28rpx",
-		"iconWidth": "28px",
-		"color": "#8a8a8a",
-		"selectedColor": "#FFF",
-		"list": [{
-				"text": "Assets",
-				"pagePath": "pages/assets/assets",
-				"iconPath": "static/1.png",
-				"selectedIconPath": "static/11.png"
-			},
-			{
-				"text": "Market",
-				"pagePath": "pages/market/market",
-				"iconPath": "static/7.png",
-				"selectedIconPath": "static/77.png"
-			},
-			{
-				"text": "Explorer",
-				"pagePath": "pages/explorer/explorer",
-				"iconPath": "static/2.png",
-				"selectedIconPath": "static/22.png"
-			}
+	// "tabBar": {
+	// 	"height": "70px",
+	// 	"borderStyle": "#06090c",
+	// 	"backgroundColor": "#06090c",
+	// 	"fontSize": "28rpx",
+	// 	"iconWidth": "28px",
+	// 	"color": "#8a8a8a",
+	// 	"selectedColor": "#FFF",
+	// 	"list": [{
+	// 			"text": "Assets",
+	// 			"pagePath": "pages/assets/assets",
+	// 			"iconPath": "static/1.png",
+	// 			"selectedIconPath": "static/11.png"
+	// 		},
+	// 		{
+	// 			"text": "Market",
+	// 			"pagePath": "pages/market/market",
+	// 			"iconPath": "static/7.png",
+	// 			"selectedIconPath": "static/77.png"
+	// 		},
+	// 		{
+	// 			"text": "Explorer",
+	// 			"pagePath": "pages/explorer/explorer",
+	// 			"iconPath": "static/2.png",
+	// 			"selectedIconPath": "static/22.png"
+	// 		}
 
-		]
-	},
+	// 	]
+	// },
+
 	"uniIdRouter": {}
 }

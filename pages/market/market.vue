@@ -541,13 +541,13 @@
 			}
 		},
 		async onShow() {
-			this.getPair();
+			// this.getPair();
 			this.wallet = await this.$wallet.GetAccount()
 			if (!this.wallet) {
 				this.wallet = await this.$wallet.Connect()
 				uni.setStorageSync('wallet', this.wallet)
 			}
-			this.getAssets()
+			// this.getAssets()
 		},
 		computed: {
 			price() {

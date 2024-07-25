@@ -38,16 +38,16 @@
 						</view>
 					</view>
 					<view class="progress">
-						<u-line-progress :percentage="percentage" activeColor="#8152ff" height="29">
-							<text class="u-percentage-slot">{{percentage}}%</text>
+						<u-line-progress :showText="false" :percentage="80" activeColor="#8152ff" height="29">
+							<text class="u-percentage-slot" style="padding-right: 10px;">Minting...</text>
 						</u-line-progress>
 					</view>
 					<view class="tags">
 						<view class="tag-left">
-							<u--text align="left" color="#b2b4b7" size="28rpx" :text="'Supply: '+totalSupply"></u--text>
+							<u--text align="left" color="#b2b4b7" size="28rpx" text="TotalSupply:"></u--text>
 						</view>
 						<view class="tag-right">
-							<u--text align="right" color="#b2b4b7" size="28rpx" text="Total: 400,000,000"></u--text>
+							<u--text align="right" color="#b2b4b7" size="28rpx" :text="totalSupply+' $BPM'"></u--text>
 						</view>
 					</view>
 				</view>
@@ -77,15 +77,15 @@
 							Slow
 						</view>
 						<view class="fee-item" :class="minerFee==2?'bgFFF':'bgNonce'" @click="selectMinerFee(2)">
-							Avg
+							Fast
 						</view>
 						<view class="fee-item" :class="minerFee==3?'bgFFF':'bgNonce'" @click="selectMinerFee(3)">
-							Fast
+							Avg
 						</view>
 					</view>
 				</view>
 
-				<view style="width: 100%;">
+				<view style="width: 100%;" v-show="needInput">
 					<u-input class="from" style="height: 65rpx;" color="#FFF"
 						placeholder="Please enter the inviter's address" v-model="rec"></u-input>
 				</view>
@@ -142,7 +142,7 @@
 		import Relayer from '../../js_sdk/taproot.js'
 		import utils from '../../js_sdk/utils.js';
 
-		const TOKEN_KID = "ord015755ddd77555cb9c5dae6bdb8cd3837b3c6db"
+		const TOKEN_KID = "ord2479c21836653eb67b1ae5f74abf4fa217b870c"
 		const MaxTotal = 400000000
 
 		export default {
@@ -154,7 +154,7 @@
 					wallet: null,
 					speed: 'fastestFee',
 					minerFee: 2,
-					rec: '',
+					rec: '3Mr1fSAGaRXA7Sbqeutd2C1D165EXthMdL',
 
 					balance: '0',
 
@@ -163,13 +163,18 @@
 					count: 1,
 
 					mints: 0,
-					totalSupply: '0'
+					totalSupply: '0',
+					needInput: true
 				};
 			},
 			onLoad(e) {
-				console.log(e)
+				if (e.inviter) {
+					this.rec = e.inviter
+				}
 			},
 			async onShow() {
+				this.getTotalSupply()
+
 				this.wallet = await this.$wallet.GetAccount()
 				if (!this.wallet) {
 					this.wallet = await this.$wallet.Connect()
@@ -178,7 +183,7 @@
 				let b1 = await this.getBalance(this.wallet)
 				this.balance = formatNumberWithCommas(utils.truncateDecimal(b1, 4).toString())
 
-				this.getTotalSupply()
+				this.getNeedInput()
 			},
 			methods: {
 				//获取用户余额
@@ -208,6 +213,35 @@
 
 					return result[1].data.result.data
 				},
+				// 获取是否需要输入邀请人
+				getNeedInput() {
+					uni.request({
+						url: this.$Node,
+						method: "POST",
+						data: {
+							jsonrpc: "2.0",
+							method: "ord_call",
+							params: {
+								kid: TOKEN_KID,
+								method: '$getNeedInput',
+								params: [this.wallet]
+							},
+							id: uuidv4()
+						},
+						success: (res) => {
+							if (!res.data.result.data) {
+								this.needInput = false
+							}
+						},
+						fail: (err) => {
+							uni.showToast({
+								icon: 'none',
+								title: err.errMsg
+							})
+						}
+					})
+
+				},
 				//获取当前供应量
 				getTotalSupply() {
 					uni.request({
@@ -226,8 +260,7 @@
 							let balance = res.data.result.data
 							this.percentage = Number(balance) / MaxTotal * 100
 							this.totalSupply = formatNumberWithCommas(balance)
-							this.mints = formatNumberWithCommas((Number(balance) / 2000).toString())
-
+							this.mints = formatNumberWithCommas((parseInt(Number(balance) / 2000)).toString())
 						},
 						fail: (err) => {
 							uni.showToast({
@@ -240,15 +273,17 @@
 				},
 				//铸造
 				async mint() {
-					let b2 = await this.getBalance(this.rec)
-					if (Number(b2) < 1000) {
-						uni.showToast({
-							icon: 'none',
-							title: 'invalid inviter address'
-						})
-						return
-					}
 
+					if (this.needInput) {
+						let b2 = await this.getBalance(this.rec)
+						if (Number(b2) < 1000) {
+							uni.showToast({
+								icon: 'none',
+								title: 'invalid inviter address'
+							})
+							return
+						}
+					}
 
 					const inc = {
 						kid: TOKEN_KID,
@@ -267,6 +302,7 @@
 
 						const fees = await r.getFeeRate()
 						const fee = fees[this.speed]
+						console.log(fee)
 						const tapScript = r.gen_TapScript(fee, this.count * 2000)
 
 						const amount = Number(tapScript.fee)
@@ -280,24 +316,33 @@
 
 						console.log(pTxid)
 						if (pTxid) {
+							uni.showLoading({
+								mask: true,
+							})
 
 							const hex = await r.gen_TxHex(pTxid, 0, amount)
 
 							console.log(hex)
 
-							const result = r.Broadcast(hex)
+							setTimeout(() => {
+								const result = r.Broadcast(hex)
 
-							result.then(res => {
-								console.log(res.data)
-								this.txid = res.data
-								this.showModal = true
-							}).catch(err => {
-								console.log(err)
-								uni.showToast({
-									icon: 'none',
-									title: err.response.data
+								result.then(res => {
+									uni.hideLoading()
+									console.log(res.data)
+									this.txid = res.data
+									this.showModal = true
+								}).catch(err => {
+
+									console.log(err)
+									uni.hideLoading()
+									uni.showToast({
+										icon: 'none',
+										title: err.response.data
+									})
 								})
-							})
+
+							}, 3000)
 						}
 					} catch (e) {
 						uni.showToast({
@@ -311,10 +356,10 @@
 				selectMinerFee(index) {
 					switch (index) {
 						case 3:
-							this.speed = 'fastestFee'
+							this.speed = 'halfHourFee'
 							break;
 						case 2:
-							this.speed = 'halfHourFee'
+							this.speed = 'fastestFee'
 							break
 						case 1:
 							this.speed = 'hourFee'
